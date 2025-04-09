@@ -126,13 +126,13 @@ def check_eula_agreement():
 def check_and_create_run_file(operating_system):
     if operating_system == "Linux":
         run_file_path = "./run.sh"
-        run_file_content = "java -Xmx2048M -Xms1024M -jar server.jar nogui"
+        run_file_content = "java -Xmx4096M -Xms1024M -jar server.jar nogui"
     elif operating_system == "Windows":
         run_file_path = "run.bat"
-        run_file_content = "java -Xmx2048M -Xms1024M -jar server.jar nogui"
+        run_file_content = "java -Xmx4096M -Xms1024M -jar server.jar nogui"
     elif operating_system == "Darwin":
         run_file_path = "./run.sh"
-        run_file_content = "java -Xmx2048M -Xms1024M -jar server.jar nogui"
+        run_file_content = "java -Xmx4096M -Xms1024M -jar server.jar nogui"
     else:
         print(RED + "[!]\tUnsupported operating system." + RESET)
         return
@@ -204,6 +204,11 @@ def check_player_death():
             line = minecraft_process.stdout.readline()
             out = line.replace("\n", "")
             print(YELLOW + out + RESET)
+            
+            #should stop thinking player died when typing 'stats' into chat
+            if "[Server] " in out:
+                continue
+            
             if line.strip():
 
                 if any(username in line for username in usernames):
